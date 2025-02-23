@@ -93,6 +93,7 @@ async def setup(objects, idx):
     # h - heat device,
     # l - light device,
     # v - vent device
+    # a - property for auto process
     return dict([
         ("t1", temp1),
         ("t2", temp2),
@@ -108,5 +109,8 @@ async def setup(objects, idx):
         ("l3", light3),
         ("v1", vent1),
         ("v2", vent2),
-        ("v3", vent3)
+        ("v3", vent3),
+        ("a1", auto_process_room1),
+        ("a2", auto_process_room2),
+        ("a3", auto_process_room3)
     ])
