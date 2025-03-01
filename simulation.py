@@ -1,5 +1,6 @@
 import asyncio
 import random
+from random import randint, uniform
 from asyncua import ua
 from globalVars import status_good, status_bad, TEMP_NORMAL_LEVEL, POWER_SCALE, _logger
 
@@ -78,21 +79,21 @@ async def simulate_light_behavior(device, sensor):
         await set_value(device, False, status_good)
 
 
-async def simulate_temp_behavior(vent_device, temp_device, heat_device, auto_status):
+async def simulate_temp_behavior(vent_device, temp_device, heat_device):
     val_v = await vent_device.read_data_value()
     val_t = await temp_device.read_data_value()
     val_h = await heat_device.read_data_value()
 
-    new_temp = random_for_temp_device(val_t.Value.Value) - (val_v) + (val_h)
+    new_temp = random_for_temp_device(val_t.Value.Value) - (val_v.Value.Value) + (val_h.Value.Value)
 
     await set_value(temp_device, new_temp, status_good)
         
 async def simulate_heat_behavior(heat_device, temp_device, auto_status):
     val_t = await temp_device.read_data_value()
-    val_h = await heat_device.read_data_value()
+    val_a = await auto_status.read_data_value()
     current_value = val_t.Value.Value
 
-    if auto_status.Value.Value:
+    if val_a.Value.Value:
         if current_value <= TEMP_NORMAL_LEVEL:
             power = -(round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE)
             await set_value(heat_device, power, status_good)
@@ -100,9 +101,10 @@ async def simulate_heat_behavior(heat_device, temp_device, auto_status):
 
 async def simulate_vent_behavior(vent_device, temp_device, auto_status):
     val_t = await temp_device.read_data_value()
+    val_a = await auto_status.read_data_value()
     current_value = val_t.Value.Value
 
-    if auto_status.Value.Value:
+    if val_a.Value.Value:
         if current_value >= TEMP_NORMAL_LEVEL:
             power = round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE
             await set_value(heat_device, power, status_good)

@@ -39,9 +39,6 @@ def find_fault(device_name):
             return v
 
 
-# TODO: make switch devices use range type
-# TODO: add service var for invoking fault behaviour (cause MasterSCADA4D cant call methods of OPC-UA)
-# TODO: recreate simulation for temp and light devices (its rought now)
 async def main():
     # Server init
     server = Server()
@@ -71,10 +68,10 @@ async def main():
                     stb(devices.get("v1"), devices.get("t1"), devices.get("h1")))
             if find_fault("v1") is False \
                     and find_fault("t1") is False:
-                await asyncio.create_task(svb(devices.get("v1"), devices.get("t1")))
+                await asyncio.create_task(svb(devices.get("v1"), devices.get("t1"), devices.get("a1")))
             if find_fault("t1") is False \
                     and find_fault("h1") is False:
-                await asyncio.create_task(svb(devices.get("h1"), devices.get("t1")))
+                await asyncio.create_task(shb(devices.get("h1"), devices.get("t1"), devices.get("a1")))
 
             # Simulating light
             if find_fault("m1") is False:
@@ -92,10 +89,10 @@ async def main():
                     stb(devices.get("v2"), devices.get("t2"), devices.get("h2")))
             if find_fault("v2") is False \
                     and find_fault("t2") is False:
-                await asyncio.create_task(svb(devices.get("v2"), devices.get("t2")))
+                await asyncio.create_task(svb(devices.get("v2"), devices.get("t2"), devices.get("a2")))
             if find_fault("t2") is False \
                     and find_fault("h2") is False:
-                await asyncio.create_task(shb(devices.get("h2"), devices.get("t2")))
+                await asyncio.create_task(shb(devices.get("h2"), devices.get("t2"), devices.get("a2")))
 
             # Simulating light
             if find_fault("m2") is False:
@@ -113,10 +110,10 @@ async def main():
                     stb(devices.get("v3"), devices.get("t3"), devices.get("h3")))
             if find_fault("v3") is False \
                     and find_fault("t3") is False:
-                await asyncio.create_task(svb(devices.get("v3"), devices.get("t3")))
+                await asyncio.create_task(svb(devices.get("v3"), devices.get("t3"), devices.get("a3")))
             if find_fault("t3") is False \
                     and find_fault("h3") is False:
-                await asyncio.create_task(shb(devices.get("h3"), devices.get("t3")))
+                await asyncio.create_task(shb(devices.get("h3"), devices.get("t3"), devices.get("a3")))
 
             # Simulating light
             if find_fault("m3") is False:
