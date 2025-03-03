@@ -30,7 +30,7 @@ def calculate_smooth_random(current_value, average, oscillation, variance):
 
 
 def random_for_temp_device(current_value):
-    return calculate_smooth_random(current_value, TEMP_NORMAL_LEVEL, 1, 0.1)
+    return calculate_smooth_random(current_value, TEMP_NORMAL_LEVEL, 10, 5)
 
 
 async def set_value(device, value, status):
@@ -95,7 +95,7 @@ async def simulate_heat_behavior(heat_device, temp_device, auto_status):
 
     if val_a.Value.Value:
         if current_value <= TEMP_NORMAL_LEVEL:
-            power = -(round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE)
+            power = -int((round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE))
             await set_value(heat_device, power, status_good)
 
 
@@ -106,5 +106,5 @@ async def simulate_vent_behavior(vent_device, temp_device, auto_status):
 
     if val_a.Value.Value:
         if current_value >= TEMP_NORMAL_LEVEL:
-            power = round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE
-            await set_value(heat_device, power, status_good)
+            power = int(round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE)
+            await set_value(vent_device, power, status_good)

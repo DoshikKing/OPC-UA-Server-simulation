@@ -35,7 +35,7 @@ async def setup(objects, idx):
     fault_var_room1 = await room1.add_variable(idx, "Set fault for concrete device", ua.Variant("", ua.VariantType.String))
     await fault_var_room1.set_writable()
 
-    auto_process_room1 = await room1.add_variable(idx, "Set auto process status", ua.Variant(False, ua.VariantType.Boolean))
+    auto_process_room1 = await room1.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room1.set_writable()
 
     # Sensors of room2
@@ -60,7 +60,7 @@ async def setup(objects, idx):
     fault_var_room2 = await room2.add_variable(idx, "Set fault for concrete device", ua.Variant("", ua.VariantType.String))
     await fault_var_room2.set_writable()
 
-    auto_process_room2 = await room2.add_variable(idx, "Set auto process status", ua.Variant(False, ua.VariantType.Boolean))
+    auto_process_room2 = await room2.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room2.set_writable()
 
     # Sensors of room3
@@ -85,7 +85,7 @@ async def setup(objects, idx):
     fault_var_room3 = await room3.add_variable(idx, "Set fault for concrete device", ua.Variant("", ua.VariantType.String))
     await fault_var_room3.set_writable()
 
-    auto_process_room3 = await room3.add_variable(idx, "Set auto process status", ua.Variant(False, ua.VariantType.Boolean))
+    auto_process_room3 = await room3.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room3.set_writable()
 
     # t - temp device,
