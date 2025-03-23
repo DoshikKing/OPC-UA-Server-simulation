@@ -53,7 +53,7 @@ async def simulate_movement_behavior(device):
 
 
 async def simulate_fault_behavior(device):
-    await set_value(device, device.read_data_value, status_bad)
+    await set_value(device, device.read_data_value.Value.Value, status_bad)
 
 
 async def simulate_light_behavior(device, sensor, power):
