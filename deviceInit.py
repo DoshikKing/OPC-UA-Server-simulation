@@ -18,17 +18,17 @@ async def setup(objects, idx):
                                      ua.Variant(TEMP_NORMAL_LEVEL, ua.VariantType.Double))
     await temp1.set_read_only()
 
-    move1 = await room1.add_variable(idx, "Movement sensor room 1", ua.Variant(0, ua.VariantType.Double))
+    move1 = await room1.add_variable(idx, "Movement sensor room 1", ua.Variant(False, ua.VariantType.Boolean))
     await move1.set_read_only()
 
     # Devices of room1
-    heat1 = await room1.add_variable(idx, "Heat dev room 1", ua.Variant(False, ua.VariantType.UInt16))
+    heat1 = await room1.add_variable(idx, "Heat dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await heat1.set_writable()
 
-    light1 = await room1.add_variable(idx, "Light dev room 1", ua.Variant(False, ua.VariantType.Boolean))
+    light1 = await room1.add_variable(idx, "Light dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await light1.set_writable()
 
-    vent1 = await room1.add_variable(idx, "Vent dev room 1", ua.Variant(False, ua.VariantType.UInt16))
+    vent1 = await room1.add_variable(idx, "Vent dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await vent1.set_writable()
 
     # Service of room1
@@ -38,22 +38,25 @@ async def setup(objects, idx):
     auto_process_room1 = await room1.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room1.set_writable()
 
+    light_power1 = await room1.add_variable(idx, "Set light power", ua.Variant(5, ua.VariantType.Byte))
+    await light_power1.set_writable()
+
     # Sensors of room2
     temp2 = await room2.add_variable(idx, "Temperature sensor room 2",
                                      ua.Variant(TEMP_NORMAL_LEVEL, ua.VariantType.Double))
     await temp2.set_read_only()
 
-    move2 = await room2.add_variable(idx, "Movement sensor room 2", ua.Variant(0, ua.VariantType.Double))
+    move2 = await room2.add_variable(idx, "Movement sensor room 2", ua.Variant(False, ua.VariantType.Boolean))
     await move2.set_read_only()
 
     # Devices of room2
-    heat2 = await room2.add_variable(idx, "Heat dev room 1", ua.Variant(False, ua.VariantType.UInt16))
+    heat2 = await room2.add_variable(idx, "Heat dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await heat2.set_writable()
 
-    light2 = await room2.add_variable(idx, "Light dev room 1", ua.Variant(False, ua.VariantType.Boolean))
+    light2 = await room2.add_variable(idx, "Light dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await light2.set_writable()
 
-    vent2 = await room2.add_variable(idx, "Vent dev room 1", ua.Variant(False, ua.VariantType.UInt16))
+    vent2 = await room2.add_variable(idx, "Vent dev room 1", ua.Variant(0, ua.VariantType.Byte))
     await vent2.set_writable()
 
     # Service of room2
@@ -63,22 +66,25 @@ async def setup(objects, idx):
     auto_process_room2 = await room2.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room2.set_writable()
 
+    light_power2 = await room2.add_variable(idx, "Set light power", ua.Variant(5, ua.VariantType.Byte))
+    await light_power2.set_writable()
+
     # Sensors of room3
     temp3 = await room3.add_variable(idx, "Temperature sensor room 3",
                                      ua.Variant(TEMP_NORMAL_LEVEL, ua.VariantType.Double))
     await temp3.set_read_only()
 
-    move3 = await room3.add_variable(idx, "Movement sensor room 3", ua.Variant(0, ua.VariantType.Double))
+    move3 = await room3.add_variable(idx, "Movement sensor room 3", ua.Variant(False, ua.VariantType.Boolean))
     await move3.set_read_only()
 
     # Devices of room3
-    heat3 = await room3.add_variable(idx, "Heat dev room 3", ua.Variant(False, ua.VariantType.UInt16))
+    heat3 = await room3.add_variable(idx, "Heat dev room 3", ua.Variant(0, ua.VariantType.Byte))
     await heat3.set_writable()
 
-    light3 = await room3.add_variable(idx, "Light dev room 3", ua.Variant(False, ua.VariantType.Boolean))
+    light3 = await room3.add_variable(idx, "Light dev room 3", ua.Variant(0, ua.VariantType.Byte))
     await light3.set_writable()
 
-    vent3 = await room3.add_variable(idx, "Vent dev room 3", ua.Variant(False, ua.VariantType.UInt16))
+    vent3 = await room3.add_variable(idx, "Vent dev room 3", ua.Variant(0, ua.VariantType.Byte))
     await vent3.set_writable()
 
     # Service of room 3
@@ -87,6 +93,9 @@ async def setup(objects, idx):
 
     auto_process_room3 = await room3.add_variable(idx, "Set auto process status", ua.Variant(True, ua.VariantType.Boolean))
     await auto_process_room3.set_writable()
+
+    light_power3 = await room3.add_variable(idx, "Set light power", ua.Variant(5, ua.VariantType.Byte))
+    await light_power3.set_writable()
 
     # t - temp device,
     # m - move device,
@@ -112,5 +121,8 @@ async def setup(objects, idx):
         ("v3", vent3),
         ("a1", auto_process_room1),
         ("a2", auto_process_room2),
-        ("a3", auto_process_room3)
+        ("a3", auto_process_room3),
+        ("p1", light_power1),
+        ("p2", light_power2),
+        ("p3", light_power3)
     ])

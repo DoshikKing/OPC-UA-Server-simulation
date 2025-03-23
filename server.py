@@ -6,7 +6,7 @@ from asyncua import Server, ua
 
 from deviceInit import setup
 from globalVars import TEMP_NORMAL_LEVEL, status_bad, status_good, _logger
-from simulation import simulate_basic_behavior as sbb
+from simulation import simulate_movement_behavior as smb
 from simulation import simulate_heat_behavior as shb
 from simulation import simulate_light_behavior as slb
 from simulation import simulate_temp_behavior as stb
@@ -75,10 +75,10 @@ async def main():
 
             # Simulating light
             if find_fault("m1") is False:
-                await asyncio.create_task(sbb(devices.get("m1"), [0.0, 10.0]))
+                await asyncio.create_task(smb(devices.get("m1")))
             if find_fault("l1") is False \
                     and find_fault("m1") is False:
-                await asyncio.create_task(slb(devices.get("l1"), devices.get("m1")))
+                await asyncio.create_task(slb(devices.get("l1"), devices.get("m1"), devices.get("p1")))
 
             # Simulating behaviour for room 2
             # Simulating temp
@@ -96,10 +96,10 @@ async def main():
 
             # Simulating light
             if find_fault("m2") is False:
-                await asyncio.create_task(sbb(devices.get("m2"), [0.0, 10.0]))
+                await asyncio.create_task(smb(devices.get("m2")))
             if find_fault("l2") is False \
                     and find_fault("m2") is False:
-                await asyncio.create_task(slb(devices.get("l2"), devices.get("m2")))
+                await asyncio.create_task(slb(devices.get("l2"), devices.get("m2"), devices.get("p2")))
 
             # Simulating behaviour for room 3
             # Simulating temp
@@ -117,10 +117,10 @@ async def main():
 
             # Simulating light
             if find_fault("m3") is False:
-                await asyncio.create_task(sbb(devices.get("m3"), [0.0, 10.0]))
+                await asyncio.create_task(smb(devices.get("m3")))
             if find_fault("l3") is False \
                     and find_fault("m3") is False:
-                await asyncio.create_task(slb(devices.get("l3"), devices.get("m3")))
+                await asyncio.create_task(slb(devices.get("l3"), devices.get("m3"), devices.get("p3")))
 
             await asyncio.sleep(1)
 

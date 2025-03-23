@@ -1,6 +1,6 @@
 import asyncio
 import random
-from random import randint, uniform
+from random import randint, uniform, getrandbits
 from asyncua import ua
 from globalVars import status_good, status_bad, TEMP_NORMAL_LEVEL, POWER_SCALE, _logger
 
@@ -48,35 +48,22 @@ async def set_value(device, value, status):
         pass
 
 
-async def simulate_basic_behavior(device, range_of_values):
-    type_of_data = await device.read_data_type_as_variant_type()
-    random_value = None
-    if type_of_data == ua.VariantType.Boolean:
-        random_value = (False if randint(0, 1) >= 0 else True)
-    if type_of_data == ua.VariantType.Double:
-        random_value = uniform(range_of_values[0], range_of_values[1])
-
-    await set_value(device, random_value, status_good)
+async def simulate_movement_behavior(device):
+    await set_value(device, bool(getrandbits(1)), status_good)
 
 
 async def simulate_fault_behavior(device):
-    type_of_data = await device.read_data_type_as_variant_type()
-    critical_value = None
-    if type_of_data == ua.VariantType.Boolean:
-        critical_value = (False if randint(0, 1) >= 0 else True)
-    if type_of_data == ua.VariantType.Double:
-        critical_value = uniform(10.0, 10000000.0)
-
-    await set_value(device, critical_value, status_bad)
+    await set_value(device, device.read_data_value, status_bad)
 
 
-async def simulate_light_behavior(device, sensor):
+async def simulate_light_behavior(device, sensor, power):
     val_s = await sensor.read_data_value()
+    val_p = await power.read_data_value()
 
-    if val_s.Value.Value >= 7.5:
-        await set_value(device, True, status_good)
+    if val_s.Value.Value == True:
+        await set_value(device, val_p.Value.Value, status_good)
     else:
-        await set_value(device, False, status_good)
+        await set_value(device, int(0), status_good)
 
 
 async def simulate_temp_behavior(vent_device, temp_device, heat_device):
