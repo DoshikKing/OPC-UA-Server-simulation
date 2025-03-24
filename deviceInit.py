@@ -6,12 +6,13 @@ from globalVars import TEMP_NORMAL_LEVEL
 
 # Initializing servers devices
 async def setup(objects, idx):
+    building = await objects.add_object(idx, "Building")
     # Room 1
-    room1 = await objects.add_object(idx, "Room1")
+    room1 = await building.add_object(idx, "Room1")
     # Room 2
-    room2 = await objects.add_object(idx, "Room2")
+    room2 = await building.add_object(idx, "Room2")
     # Room 3
-    room3 = await objects.add_object(idx, "Room3")
+    room3 = await building.add_object(idx, "Room3")
 
     # Sensors of room1
     temp1 = await room1.add_variable(idx, "Temperature sensor room 1",
