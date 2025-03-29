@@ -56,14 +56,16 @@ async def simulate_fault_behavior(device):
     await set_value(device, device.read_data_value.Value.Value, status_bad)
 
 
-async def simulate_light_behavior(device, sensor, power):
+async def simulate_light_behavior(device, sensor, power, auto_status):
     val_s = await sensor.read_data_value()
     val_p = await power.read_data_value()
+    val_a = await auto_status.read_data_value()
 
-    if val_s.Value.Value == True:
-        await set_value(device, val_p.Value.Value, status_good)
-    else:
-        await set_value(device, int(0), status_good)
+    if val_a.Value.Value:
+        if val_s.Value.Value == True:
+            await set_value(device, val_p.Value.Value, status_good)
+        else:
+            await set_value(device, int(0), status_good)
 
 
 async def simulate_temp_behavior(vent_device, temp_device, heat_device):
@@ -82,7 +84,7 @@ async def simulate_heat_behavior(heat_device, temp_device, auto_status):
 
     if val_a.Value.Value:
         if current_value <= TEMP_NORMAL_LEVEL:
-            power = -int((round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE))
+            power = -int((round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE)) # bug with power sim
             await set_value(heat_device, power, status_good)
 
 
@@ -93,5 +95,5 @@ async def simulate_vent_behavior(vent_device, temp_device, auto_status):
 
     if val_a.Value.Value:
         if current_value >= TEMP_NORMAL_LEVEL:
-            power = int(round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE)
+            power = int(round(current_value - TEMP_NORMAL_LEVEL) / POWER_SCALE) # bug with power sim
             await set_value(vent_device, power, status_good)
