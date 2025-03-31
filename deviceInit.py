@@ -51,13 +51,13 @@ async def setup(objects, idx):
     await move2.set_read_only()
 
     # Devices of room2
-    heat2 = await room2.add_variable(idx, "Heat dev room 1", ua.Variant(0, ua.VariantType.Byte))
+    heat2 = await room2.add_variable(idx, "Heat dev room 2", ua.Variant(0, ua.VariantType.Byte))
     await heat2.set_writable()
 
-    light2 = await room2.add_variable(idx, "Light dev room 1", ua.Variant(0, ua.VariantType.Byte))
+    light2 = await room2.add_variable(idx, "Light dev room 2", ua.Variant(0, ua.VariantType.Byte))
     await light2.set_writable()
 
-    vent2 = await room2.add_variable(idx, "Vent dev room 1", ua.Variant(0, ua.VariantType.Byte))
+    vent2 = await room2.add_variable(idx, "Vent dev room 2", ua.Variant(0, ua.VariantType.Byte))
     await vent2.set_writable()
 
     # Service of room2
@@ -120,10 +120,13 @@ async def setup(objects, idx):
         ("v1", vent1),
         ("v2", vent2),
         ("v3", vent3),
+        ("p1", light_power1),
+        ("p2", light_power2),
+        ("p3", light_power3),
         ("a1", auto_process_room1),
         ("a2", auto_process_room2),
         ("a3", auto_process_room3),
-        ("p1", light_power1),
-        ("p2", light_power2),
-        ("p3", light_power3)
+        ("f1", fault_var_room1),
+        ("f2", fault_var_room2),
+        ("f3", fault_var_room3)
     ])

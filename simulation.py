@@ -52,8 +52,18 @@ async def simulate_movement_behavior(device):
     await set_value(device, bool(getrandbits(1)), status_good)
 
 
-async def simulate_fault_behavior(device):
-    await set_value(device, device.read_data_value.Value.Value, status_bad)
+async def simulate_fault_behavior(devices, fault_status, fault_devices_status):
+    val_f = await fault_status.read_data_value()
+
+    if val_f.Value.Value != "":
+        device_to_make_fault = devices.get(val_f.Value.Value)
+
+        for k, v in fault_devices_status.items():
+            if k == val_f.Value.Value and not v:
+                val_d_f = await device_to_make_fault.read_data_value()
+                fault_devices_status.update({k: True})
+                await set_value(device_to_make_fault, val_d_f.Value.Value, status_bad)
+                    
 
 
 async def simulate_light_behavior(device, sensor, power, auto_status):

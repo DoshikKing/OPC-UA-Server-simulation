@@ -14,7 +14,7 @@ from simulation import simulate_vent_behavior as svb
 from simulation import simulate_fault_behavior as sfb
 
 # Used for keeping status of fault tasks
-fault_behavior_tasks = dict([
+fault_devices_status = dict([
     ("t1", False),
     ("t2", False),
     ("t3", False),
@@ -34,7 +34,7 @@ fault_behavior_tasks = dict([
 
 # Finds broken device
 def find_fault(device_name):
-    for k, v in fault_behavior_tasks.items():
+    for k, v in fault_devices_status.items():
         if k == device_name:
             return v
 
@@ -54,10 +54,14 @@ async def main():
     async with server:
         while True:
             # Simulating fault behavior
-            for k, v in fault_behavior_tasks.items():
-                if v:
-                    await asyncio.create_task(sfb(devices.get(k)))
-                    fault_behavior_tasks.update({k: True})
+            # for k, v in fault_devices_status.items():
+            #     if v:
+            #         await asyncio.create_task(sfb(devices.get(k)))
+            #         fault_devices_status.update({k: True})
+
+            await sfb(devices, devices.get("f1"), fault_devices_status)
+            await sfb(devices, devices.get("f2"), fault_devices_status)
+            await sfb(devices, devices.get("f3"), fault_devices_status)
 
             # Simulating behaviour for room 1
             # Simulating temp
@@ -127,5 +131,5 @@ async def main():
 
 # Prog start point
 if __name__ == "__main__":
-    logging.basicConfig(level=logging.DEBUG)
-    asyncio.run(main(), debug=True)
+    logging.basicConfig(level=logging.INFO)
+    asyncio.run(main(), debug=False)
